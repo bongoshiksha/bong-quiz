@@ -1,0 +1,299 @@
+
+<html lang="bn">
+  
+ 
+<head>
+
+
+
+
+
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali&display=swap" rel="stylesheet">
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta charset="UTF-8"></meta>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+  <title>কুইজ টেস্ট</title>
+  <style>
+    body { font-family: Noto Serif Bengali, sans-serif; background: #f0f8ff; margin: 0; padding: 0; }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    table, th, td { border: 1px solid #ccc; }
+    th, td { padding: 10px; text-align: center; }
+    th { background: red; color: white; }
+    td:nth-child(odd) { background: #f5f5f5; }
+    td:nth-child(even) { background: #e0ffff; }
+    .start-section { text-align: center; background: #d9f0ff; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+    .start-btn { background: red; color: white; padding: 10px 20px; border: none; border-radius: 20px; font-size: 18px; cursor: pointer; }
+    .quiz-box { display: none; text-align: center; background: #d9f0ff; padding: 20px; border-radius: 10px; }
+    .question { font-size: 20px; margin-bottom: 20px; }
+    .options button { display: inline-block; padding: 10px 20px; margin: 10px; font-size: 16px; border-radius: 10px; border: none; cursor: pointer; }
+    .correct { background-color: #28a745 !important; color: white; }
+    .wrong { background-color: #dc3545 !important; color: white; }
+    .next-btn { background: red; color: white; padding: 8px 16px; border: none; border-radius: 15px; margin-top: 15px; font-size: 16px; cursor: pointer; }
+    .timer { font-size: 24px; font-weight: bold; color: green; margin-bottom: 10px; }
+    .score-section { font-size: 20px; margin-top: 20px; }
+    .remark { font-weight: bold; color: #d9534f; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <table>
+      <tr><th>Online Timer</th><th>Quiz</th></tr>
+      <tr><td>পর্ব</td><td>01</td></tr>
+      <tr><td>পাঠ</td><td>বঙ্গভূমির প্রতি</td></tr>
+      <tr><td>প্রশ্ন সংখ্যা</td><td>20</td></tr>
+      <tr><td>নম্বর</td><td>20</td></tr>
+      <tr><td>সময়</td><td>প্রতি প্রশ্নের জন্য ২০ সেকেন্ড সময়</td></tr>
+    </table>
+
+    <div class="start-section">
+      <p>ওয়েবসাইট : বঙ্গশিক্ষা.ইন</p>
+      <h2>প্রতিটি প্রশ্নের জন্য ২০ সেকেন্ড সময়</h2>
+      <button class="start-btn" onclick="startQuiz()">Start The Quiz</button>
+    </div>
+
+    <div class="quiz-box" id="quizBox">
+      <div class="timer" id="timer">20</div>
+      <div class="question" id="questionText"></div>
+      <div class="options" id="options"></div>
+      <button class="next-btn" id="nextBtn" onclick="nextQuestion()" style="display: none;">Next question</button>
+      <div class="score-section" id="scoreSection" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script>
+    const quiz = [
+
+      {
+  question: "‘বঙ্গভূমির প্রতি’ কবিতাটি কে লিখেছেন? ?",
+  options: ["ক / রবীন্দ্রনাথ ঠাকুর", "খ / কাজী নজরুল ইসলাম", "গ / মাইকেল মধুসূদন দত্ত", "ঘ / জীবনানন্দ দাশ"],
+  correct: 2
+},
+
+      
+{
+  question: "মাইকেল মধুসূদন দত্ত মূলত কোন ভাষায় কবিতা লিখতেন?",
+  options: ["ক / ফারসি", "খ / বাংলা", "গ / উর্দু", "ঘ / সংস্কৃত"],
+  correct: 1
+
+},
+
+{
+  question: "'বঙ্গভূমির প্রতি' কবিতা অনুযায়ী কবি কোথায় জন্মগ্রহণ করেন?",
+  options: ["ক / মাদ্রাজ", "খ / কলকাতা", "গ / যশোর", "ঘ / ঢাকা"],
+  correct: 2
+},
+
+{
+
+  question: "‘বঙ্গভূমির প্রতি’ কবিতাটি কি ধরনের কবিতা?",
+  options: ["ক / প্রেমের কবিতা", "খ / দেশপ্রেমমূলক কবিতা", "গ / হাস্যরসাত্মক কবিতা", "ঘ / প্রকৃতির কবিতা"],
+  correct: 1
+},
+
+{
+  question: "'বঙ্গভূমির প্রতি' কবিতায় কবি কোন দেশের তুলনায় বঙ্গদেশকে বড় মনে করেছেন?",
+  options: ["ক / ফ্রান্স", "খ / ইংল্যান্ড", "গ / রোম", "ঘ / সবকটি"],
+  correct: 3
+},
+
+{
+
+  question: "‘তোমারি কোলে জন্ম আমার’ – এই লাইনটির মাধ্যমে কবি কি বোঝাতে চেয়েছেন?",
+  options: ["ক / কবির আশা", "খ / কবির জন্মস্থান", "গ / কবির ভবিষ্যৎ", "ঘ / কবির মৃত্যু"],
+  correct: 1
+},
+
+
+
+{
+  question: "'বঙ্গভুমির প্রতি' কবিতা অনুযায়ী কবি কোথায় ছিলেন?",
+  options: ["ক / আমেরিকা", "খ / রোম", "গ / ইংল্যান্ড", "ঘ / ফ্রান্স"],
+  correct: 3
+},
+
+{
+
+  question: "‘তোমায় ভালোবাসি’ – এই পঙক্তিটির মাধ্যমে কবি কি বোঝাতে চেয়েছেন?",
+  options: ["ক / রাগ", "খ / আনন্দ", "গ / প্রেম", "ঘ / বিরক্তি"],
+  correct: 2
+},
+
+{
+  question: "কবি কার প্রতি এখানে কৃতজ্ঞতা প্রকাশ করেছেন?",
+  options: ["ক / মাতা", "খ / পিতা", "গ / বঙ্গভূমি", "ঘ / গুরু"],
+  correct: 2
+},
+{
+  question: "কবিতায় ‘স্বর্গ’ শব্দটি কি বোঝাতে ব্যবহৃত হয়েছে?",
+  options: ["ক / দেশকে বোঝাতে", "খ / ঈশ্বরকে বোঝাতে", "গ / কবিতার ছন্দে", "ঘ / মৃত্যুর পরের স্থান"],
+  correct: 0
+},
+
+{
+  question: "মাইকেল মধুসূদন দত্তের ভাষার বৈশিষ্ট্য কী?",
+  options: ["ক / কঠিন", "খ / সহজ ও প্রাঞ্জল", "গ / কাব্যময়", "ঘ / বিদেশি"],
+  correct: 1
+},
+
+{
+  question: "‘কতই ভালোবাসি’ – এই কথাটি কবি কার উদ্দেশ্যে বলেন?",
+  options: ["ক / মাকে", "খ / দেশকে", "গ / প্রেমিকাকে", "ঘ / বন্ধুকে"],
+  correct: 1
+},
+
+{
+  question: "‘বঙ্গভূমির প্রতি’ কবিতাটির মুল ভাব কি? ",
+  options: ["ক / প্রকৃতি চিত্রণ", "খ / যুদ্ধ", "গ / দেশপ্রেম", "ঘ / ইতিহাস"],
+  correct: 2
+},
+
+{
+  question: "'বঙ্গভূমির প্রতি' কবিতায় কবির মতে, প্রকৃত সুখ কোথায় পাওয়া যায়?",
+  options: ["ক / বিদেশে", "খ / অর্থে", "গ / বিদ্যায়", "ঘ / মাতৃভূমিতে"],
+  correct: 3
+},
+
+{
+  question: "‘বিদেশের মাটি কি তোমার মতো আপন?’ – এখানে ‘তোমার’ বলতে কাকে বোঝানো হয়েছে?",
+  options: ["ক / বিদেশ", "খ / বন্ধু", "গ / মাতৃভূমি", "ঘ / ঈশ্বর"],
+  correct: 2
+},
+
+{
+  question: "'বঙ্গভূমির প্রতি' কবিতায় কবির দৃষ্টিতে দেশ আসলে কী?",
+  options: ["ক / কেবল মাটি", "খ / শ্রেষ্ঠ স্থান", "গ / কষ্টের স্থান", "ঘ / জীবনের অন্ত"],
+  correct: 1
+},
+{
+
+  question: "'বঙ্গভূমির প্রতি' কবিতায় কবিতায় কোথায় স্বর্গের চেয়ে দেশকে বড় বলা হয়েছে?",
+  options: ["ক / প্রথম স্তবকে", "খ / মাঝখানে", "গ / শেষের স্তবকে", "ঘ / কোথাও না"],
+  correct: 0
+},
+{
+
+  question: "কবি দেশপ্রেমের কথা কিসের মাধ্যমে প্রকাশ করেছেন?",
+  options: ["ক / নাটক", "খ / চিঠি", "গ / কবিতা", "ঘ / গল্প"],
+  correct: 2
+},
+{
+
+  question: "মাইকেল মধুসূদন দত্ত কোন যুগের কবি?",
+  options: ["ক / আধুনিক", "খ / মধ্যযুগ", "গ / প্রাচীন", "ঘ / বৈষ্ণব যুগ"],
+  correct: 0
+},
+{
+
+  question: "কবিতায় ‘তোমার কোলে ঘুমিয়ে মরিতে চাহি’ – লাইনটির মানে কি?",
+  options: ["ক / ঘুমাতে চায়", "খ / জীবনের শেষ এখানেই চাই", "গ / ভয় পায়", "ঘ / স্বপ্ন দেখতে চায়"],
+  correct: 1
+}
+
+
+
+
+
+
+
+
+
+      
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 20;
+
+    function startQuiz() {
+      document.querySelector('.start-section').style.display = 'none';
+      document.getElementById('quizBox').style.display = 'block';
+      showQuestion();
+      startTimer();
+    }
+
+    function showQuestion() {
+      timeLeft = 20;
+      document.getElementById('timer').innerText = timeLeft;
+      const q = quiz[currentQuestion];
+      document.getElementById('questionText').innerText = `${currentQuestion + 1} / ${quiz.length} → ${q.question}`;
+      const optionsDiv = document.getElementById('options');
+      optionsDiv.innerHTML = '';
+      q.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.innerText = option;
+        btn.onclick = () => checkAnswer(btn, index, q.correct);
+        optionsDiv.appendChild(btn);
+      });
+      document.getElementById('nextBtn').style.display = 'none';
+    }
+
+    function checkAnswer(button, selectedIndex, correctIndex) {
+      const buttons = document.querySelectorAll('#options button');
+      buttons.forEach((btn, index) => {
+        btn.disabled = true;
+        if (index === correctIndex) {
+          btn.classList.add('correct');
+        }
+      });
+
+      if (selectedIndex === correctIndex) {
+        score++;
+      } else {
+        button.classList.add('wrong');
+      }
+
+      document.getElementById('nextBtn').style.display = 'inline-block';
+      clearInterval(timer);
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < quiz.length) {
+        showQuestion();
+        startTimer();
+      } else {
+        showResult();
+      }
+    }
+
+    function startTimer() {
+      timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').innerText = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          document.getElementById('nextBtn').style.display = 'inline-block';
+        }
+      }, 1000);
+    }
+
+    function showResult() {
+      document.getElementById('questionText').style.display = 'none';
+      document.getElementById('options').style.display = 'none';
+      document.getElementById('nextBtn').style.display = 'none';
+      document.getElementById('timer').style.display = 'none';
+      const resultText = `তোমার স্কোর: ${score} / ${quiz.length}`;
+      const remark = score / quiz.length < 0.5 ? "👉 আরো ভালো করে পড়তে হবে" : "✔️ ভালো করেছো!";
+      document.getElementById('scoreSection').innerHTML = resultText + `<div class="remark">${remark}</div>`;
+      document.getElementById('scoreSection').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
